@@ -9,11 +9,11 @@ You can create your profile, set your profile pic share pictures and follow othe
 ## Screenshots
 Feed Page
 
-<img src="./screenshots/feed.png">
+<img src="./screenshots/feed.png" width="200">
 
 Profile Page
 
-<img src="./screenshots/profile.png">
+<img src="./screenshots/profile.png" width="200">
 
 ## Technology Used
 - HTML
