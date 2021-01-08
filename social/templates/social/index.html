@@ -1,0 +1,76 @@
+{% extends 'social/base.html' %}
+{% load static %}
+{% block title %}Instasohor Feed{% endblock %}
+{% block content %}
+<div class="container-fluid my-1">
+    {% for post in posts %}
+    <div class="row my-3">
+        <div class="col-md-6 col-sm-12 m-auto">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'user' post.user.username %}" class="avatar_link">
+                            <img src="{{post.user.profile.profile_pic.url}}" alt="Avatar" class="avatar">
+                            <span class="avatar_title">{{post.user.username}}</span>
+                        </a>
+                        {% if post.user.username != user.username %}
+                        <a href="{% url 'toggleFollow' post.user.username %}"
+                            class="btn btn-sm btn-outline-primary">Follow / UnFollow</a>
+                        {% else %}
+                        <a href="{% url 'delete' post.id %}"
+                            class="btn btn-sm btn-outline-danger" data-toggle="tooltip" data-placement="left" title="Delete Post"><i class="fa fa-2x fa-trash"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+                <img class="card-img-top" src="{{post.image.url}}" alt="Card image cap">
+                <div class="card-body">
+                    <div><a href="{% url 'like' post.id %}" class=" text-danger"><i
+                                class="fa fa-heart{% if user not in post.liked_users.all %}-o{% endif %} fa-2x"></i></a>
+                    </div>
+                    <div class="mb-2"><b>{{post.liked_users.all | length}} like{% if post.liked_users.all|length > 1 %}s{% endif %}</b></div>
+                    <a href="{% url 'singlePost' post.id %}" class="caption_link">
+                        <p class="card-text text-left mb-1 caption">{{post.caption}}</p>
+                        <div class="comments">
+                            {% for comment in post.comment_set.all|slice:"3" %}
+                            <div class="comment">
+                                <b>{{comment.user}}</b> <span> {{comment.body}}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </a>
+                </div>
+                <div class="card-footer">
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'comment' post.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="d-flex">
+                            <input name="comment" type="text" class="form-control" placeholder="Add a comment...">
+                            <button type="submit" class="ml-2 btn btn-success">Post</button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <h4>You Have to Login to comment</h4>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if posts.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'feed' %}?page={{posts.previous_page_number}}" tabindex="-1"><i
+                        class="fa fa-arrow-left"></i></a>
+            </li>
+            {% endif %}
+            {% if posts.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'feed' %}?page={{posts.next_page_number}}"><i
+                        class="fa fa-arrow-right"></i></a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

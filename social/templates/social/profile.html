@@ -1,0 +1,59 @@
+{% extends 'social/base.html' %}
+{% load static %}
+{% block title %}Instasohor {{curr_user.username}}{% endblock %}
+{% block content %}
+<div class="container my-1 py-4 profile">
+    <div class="row">
+        <div class="col-md-8 col-sm-12 m-auto">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 text-center">
+                    <img src="{{profile.profile_pic.url}}"
+                        alt="Avatar" class="avatar_profile">
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <h2 class="my-2 username-heading">{{curr_user.username}}
+                        {% if curr_user.username == user.username %}
+                        <a href="{% url 'editProfile' %}" class="btn btn-secondary">Edit Profile</a>
+                        {% else %}
+                        <a href="{% url 'toggleFollow' curr_user.username %}" class="btn btn-sm btn-outline-primary">Follow / UnFollow</a>
+                        {% endif %}
+                    </h2>
+                    <div class="my-3 d-flex justify-content-between">
+                        <div><b>{{curr_user.post_set.all|length}}</b> post{% if curr_user.post_set.all|length > 1 %}s{% endif %}</div>
+                        <div>
+                            <a href="{% url 'followers' curr_user.username %}" class="text-dark">
+                                <b>{{n_followers}}</b> follower{% if n_followers > 1 %}s{% endif %}
+                            </a>
+                        </div>
+                        <div>
+                            <a href="{% url 'following' curr_user.username %}" class="text-dark">
+                                <b>{{n_following}}</b> following{% if n_following > 1 %}s{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mt-4 mb-1"><b>{{curr_user.first_name}} {{curr_user.last_name}}</b></p>
+                    <p>{{profile.about}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-4">
+    <div class="text-center">
+        <h3 class="my-3">All Posts</h3>
+        <div class="row">
+            <div class="col-md-9 col-sm-12 mx-auto">
+                <div class="row">
+                    {% for post in curr_user.post_set.all %}
+                    <div class="col-md-4 col-sm-12 my-2">
+                        <a href="{% url 'singlePost' post.id %}">
+                            <img class="img-thumbnail img-fluid"
+                                src="{{post.image.url}}">
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

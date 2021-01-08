@@ -1,0 +1,58 @@
+{% extends 'social/base.html' %}
+{% load static %}
+{% block title %}Instasohor Login/Signup{% endblock %}
+{% block content %}
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-6 col-sm-12 mx-auto" id="register">
+            <h3 class="text-center mb-3">Signup</h3>
+            <form action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_username">Username</label>
+                    {{registerForm.username}}
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="id_name">First Name</label>
+                            {{registerForm.first_name}}
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="id_name">Last Name</label>
+                            {{registerForm.last_name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_email">Email</label>
+                    {{registerForm.email}}
+                </div>
+                <div class="form-group">
+                    <label for="id_password1">Password</label>
+                    {{registerForm.password1}}
+                </div>
+                <div class="form-group">
+                    <label for="id_password2">Confirm Password</label>
+                    {{registerForm.password2}}
+                </div>
+                <button type="submit" class="btn btn-success">Register</button>
+                <p class="mt-3">Already have a account? <a href="{% url 'login' %}">Login Here</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    let inputs = document.querySelectorAll('#register input');
+    inputs.forEach(input => input.classList += 'form-control');
+    inputs[1].placeholder = "Enter Your Name...";
+    inputs[2].placeholder = "Enter Your Username...";
+    inputs[3].placeholder = "Enter Your Email...";
+    inputs[4].placeholder = "Enter Your Password...";
+    inputs[5].placeholder = "Enter Confirm Password...";
+</script>
+{% endblock %}

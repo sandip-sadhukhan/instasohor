@@ -1,0 +1,30 @@
+{% extends 'social/base.html' %}
+{% load static %}
+{% block title %}Instasohor {{title}}{% endblock %}
+{% block content %}
+<div class="container-fluid my-1">
+    <div class="row my-3">
+        <div class="col-md-6 col-sm-12 m-auto">
+            <h3 class="my-3 text-center">{{title}}</h3>
+            {% if results|length > 0 %}
+            <ul class="list-group">
+                {% for result in results %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'user' result.user_id.username %}" class="avatar_link">
+                            <img src="{{result.user_id.profile.profile_pic.url}}" alt="Avatar" class="avatar">
+                            <span class="avatar_title">{{result.user_id}}</span>
+                        </a>
+                        <a href="{% url 'toggleFollow' result.user_id.username %}"
+                            class="btn btn-sm btn-outline-primary">Follow / UnFollow</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <h3 class="text-center my-3 text-danger">No Result Found!</h3>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

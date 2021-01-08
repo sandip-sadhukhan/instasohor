@@ -1,0 +1,41 @@
+{% load static %}
+<nav class="navbar navbar-expand sticky-top navbar-light bg-light m-0">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'feed' %}"><img src="{% static 'images/favicon.png' %}" class="mr-2 brand-image" alt="Logo"> <span class="title"> Instasohor</span></a>
+        <div>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'feed' %}" data-toggle="tooltip" data-placement="bottom" title="Feed"><i
+                            class="fa fa-home fa-2x"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'addPost' %}" data-toggle="tooltip" data-placement="bottom" title="Add Post"><i
+                            class="fa fa-plus-square fa-2x"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}" data-toggle="tooltip" data-placement="bottom" title="Your profile"><img src="{{user.profile.profile_pic.url}}" alt="Avatar" class="avatar_small"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'search' %}" data-toggle="tooltip" data-placement="bottom" title="Search"><i
+                            class="fa fa-search fa-2x"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}" data-toggle="tooltip" data-placement="bottom" title="Logout"><i
+                            class="fa fa-sign-out fa-2x"></i></a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}" data-toggle="tooltip" data-placement="bottom" title="Login"><i
+                            class="fa fa-sign-in fa-2x"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}" data-toggle="tooltip" data-placement="bottom" title="Register"><i
+                            class="fa fa-user-plus fa-2x"></i></a>
+                </li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </div>
+</nav>
